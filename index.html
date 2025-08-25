@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Canvas 3 & 4 — Full Deck (Timers + Blank Board)</title>
+  <title>Canvas 3 & 4 — Full Deck (Timers + Blank Green Board)</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <style>
@@ -11,9 +11,10 @@
     body { font-family:'Inter', sans-serif; }
     .deck { width:100vw; height:100vh; display:flex; flex-direction:column; }
     .viewport { flex:1; display:flex; align-items:center; justify-content:center; text-align:center; padding:clamp(12px,3.5vh,32px); }
-    .slide h2 { font-weight:800; font-size:clamp(28px,4vw,44px); line-height:1.15; }
-    .slide p, .slide li { font-size:clamp(18px,2.2vw,24px); line-height:1.45; }
-    .slide ul { max-width:1100px; margin:1rem auto 0; text-align:left; }
+    /* Bigger, back-row-friendly type sizes */
+    .slide h2 { font-weight:800; font-size:clamp(36px,6vw,72px); line-height:1.1; }
+    .slide p, .slide li { font-size:clamp(22px,3.2vw,36px); line-height:1.35; }
+    .slide ul { max-width:1300px; margin:1rem auto 0; text-align:left; }
     .board { width:min(92vw,1400px); height:min(58vh,700px); border-radius:16px; box-shadow:0 6px 18px rgba(0,0,0,.12); }
   </style>
 </head>
@@ -33,7 +34,7 @@
         </div>
         <div class="flex items-center justify-center gap-3">
           <button id="timer-button" class="px-6 py-2 rounded-full font-bold text-white transition bg-green-500 hover:bg-green-600">Start</button>
-          <span id="timer-display" class="text-4xl font-mono text-gray-800 w-24 text-center">5:00</span>
+          <span id="timer-display" class="text-6xl md:text-7xl font-mono text-gray-800 w-36 text-center">5:00</span>
           <button id="timer-reset-button" class="px-4 py-2 rounded-full font-bold text-sm text-gray-700 bg-gray-200 hover:bg-gray-300">Reset</button>
         </div>
       </div>
@@ -41,25 +42,23 @@
 
     <!-- Bottom nav -->
     <div class="flex items-center justify-between px-[clamp(12px,3.5vh,32px)] pb-[clamp(12px,3.5vh,32px)]">
-      <button id="prev-button" class="px-6 py-3 rounded-full font-bold text-white transition transform hover:scale-105 bg-gray-600 disabled:bg-gray-400" disabled>Previous</button>
-      <div id="slide-counter" class="text-[clamp(14px,2vw,20px)] font-semibold text-gray-500"></div>
-      <button id="next-button" class="px-6 py-3 rounded-full font-bold text-white transition transform hover:scale-105 bg-purple-600 disabled:bg-gray-400">Next</button>
+      <button id="prev-button" class="px-8 py-4 rounded-full font-bold text-white transition transform hover:scale-105 bg-gray-600 disabled:bg-gray-400" disabled>Previous</button>
+      <div id="slide-counter" class="text-[clamp(18px,2.8vw,28px)] font-semibold text-gray-600"></div>
+      <button id="next-button" class="px-8 py-4 rounded-full font-bold text-white transition transform hover:scale-105 bg-purple-600 disabled:bg-gray-400">Next</button>
     </div>
   </div>
 
   <script>
-    // Full deck — 11 slides total
-    // Day 3: Warm Up, Share Out (blank green board), Contract, Homework, Lab Norms, Kindness
-    // Day 4: Warm Up, Project + Roles, Reflection + Rubric, Talk It Out, Clean Up Game
+    // Full deck (12 slides): Day 3 (7) + Day 4 (5)
     const slides = [
       // -------- DAY 3 --------
       {
         title: "Day 3 — Warm Up",
         content: `
-          <div class='slide max-w-[1200px]'>
-            <h2 class='mb-2 text-emerald-600'>✍️ Warm Up</h2>
+          <div class='slide max-w-[1300px]'>
+            <h2 class='mb-4 text-emerald-600'>✍️ Warm Up</h2>
             <p>Find your <strong>journal</strong>. Add a heading: <em>Name · Date · Topic</em>.</p>
-            <div class='mt-4 p-6 bg-emerald-50 rounded-2xl border border-emerald-100 inline-block'>
+            <div class='mt-6 p-8 bg-emerald-50 rounded-2xl border border-emerald-100 inline-block'>
               <p>Write <strong>3 things</strong> you remember from last week’s science class. When time is up: <strong>Think–Pair–Share</strong>.</p>
             </div>
           </div>
@@ -71,11 +70,11 @@
       {
         title: "Day 3 — Share Out",
         content: `
-          <div class='slide max-w-[1400px]'>
-            <h2 class='mb-2 text-indigo-600'>💬 Let’s Share!</h2>
+          <div class='slide max-w-[1500px]'>
+            <h2 class='mb-4 text-indigo-600'>💬 Let’s Share!</h2>
             <p>Raise your hand and share one big idea you wrote. We’ll build a class list of what we remember!</p>
-            <!-- Blank green board (gentle STEM color) -->
-            <div class='board mt-5 bg-green-100 border border-green-300'></div>
+            <!-- Blank green board (no text/numbers) -->
+            <div class='board mt-6 bg-green-100 border border-green-300'></div>
           </div>
         `,
         day: 3
@@ -83,17 +82,17 @@
       {
         title: "Day 3 — Our Class Contract",
         content: `
-          <div class='slide max-w-[1200px]'>
-            <h2 class='mb-2 text-sky-600'>📜 Our Promises</h2>
+          <div class='slide max-w-[1300px]'>
+            <h2 class='mb-4 text-sky-600'>📜 Our Promises</h2>
             <p>These promises keep our room safe, fair, and fun. Which one matters most to you?</p>
-            <ul class='list-disc pl-6 mt-4 space-y-2'>
+            <ul class='list-disc pl-8 mt-6 space-y-4'>
               <li>👀👂✋ Listen with eyes, ears, and hands.</li>
               <li>💡 Share and respect everyone’s ideas.</li>
               <li>🎨 Use supplies safely and wisely.</li>
               <li>🤝 Be kind and respect space.</li>
               <li>🌟 Treat others how you want to be treated.</li>
             </ul>
-            <p class='mt-4'><em>Write on your desk:</em> Which promise is most important and why?</p>
+            <p class='mt-6'><em>Write on your desk:</em> Which promise is most important and why?</p>
           </div>
         `,
         day: 3
@@ -101,8 +100,8 @@
       {
         title: "Day 3 — Homework",
         content: `
-          <div class='slide max-w-[1200px]'>
-            <h2 class='mb-2 text-purple-600'>📘 Homework</h2>
+          <div class='slide max-w-[1300px]'>
+            <h2 class='mb-4 text-purple-600'>📘 Homework</h2>
             <p>Take home your copy of our Class Contract. <strong>Sign it</strong> and bring it back tomorrow!</p>
           </div>
         `,
@@ -111,9 +110,9 @@
       {
         title: "Day 3 — STEM Lab Norms",
         content: `
-          <div class='slide max-w-[1200px]'>
-            <h2 class='mb-2 text-amber-600'>🧪 STEM Lab Norms</h2>
-            <ul class='list-disc pl-6 mt-3 space-y-2'>
+          <div class='slide max-w-[1300px]'>
+            <h2 class='mb-4 text-amber-600'>🧪 STEM Lab Norms</h2>
+            <ul class='list-disc pl-8 mt-4 space-y-4'>
               <li><strong>Supplies:</strong> Return items to the labeled bins.</li>
               <li><strong>Bathroom:</strong> Cross <em>two fingers</em> silently to ask.</li>
               <li><strong>Water & Food:</strong> Water stays <em>outside</em>. No food in the lab.</li>
@@ -125,13 +124,55 @@
         day: 3
       },
       {
+        title: "Day 3 — ClassDojo Skills: Positive & Needs Work",
+        content: `
+          <div class='slide max-w-[1500px]'>
+            <h2 class='mb-2 text-violet-700'>🏆 ClassDojo Skills</h2>
+            <div class='grid grid-cols-1 md:grid-cols-2 gap-10 mt-6 text-left'>
+              <div>
+                <h3 class='text-[clamp(28px,4.5vw,48px)] font-extrabold text-green-700 mb-3'>Positive</h3>
+                <ul class='list-disc pl-8 space-y-3'>
+                  <li>Teamwork & Collaboration</li>
+                  <li>Working Hard</li>
+                  <li>Persistence</li>
+                  <li>Participation</li>
+                  <li>Creative Thinking</li>
+                  <li>Problem‑Solving</li>
+                  <li>Helping Others</li>
+                  <li>Safe Use of Supplies</li>
+                  <li>Note‑Taking / Journaling</li>
+                  <li>Clean Up Crew</li>
+                </ul>
+              </div>
+              <div>
+                <h3 class='text-[clamp(28px,4.5vw,48px)] font-extrabold text-rose-700 mb-3'>Needs Work</h3>
+                <ul class='list-disc pl-8 space-y-3'>
+                  <li>Disrespectful</li>
+                  <li>Interrupting</li>
+                  <li>Not Including Others</li>
+                  <li>Off Task</li>
+                  <li>Not Participating</li>
+                  <li>Unsafe with Supplies</li>
+                  <li>Off‑Task Tech Use</li>
+                  <li>Messy Clean Up</li>
+                  <li>Unprepared</li>
+                  <li>Giving Up Too Quickly</li>
+                </ul>
+              </div>
+            </div>
+            <p class='mt-6 text-gray-700'>We’ll practice these every day. Think: <em>What does each one look like in our STEM lab?</em></p>
+          </div>
+        `,
+        day: 3
+      },
+      {
         title: "Day 3 — Digital Citizenship: It's Cool to Be Kind",
         content: `
-          <div class='slide max-w-[1200px]'>
-            <h2 class='mb-2 text-rose-600'>💗 It's Cool to Be Kind</h2>
+          <div class='slide max-w-[1300px]'>
+            <h2 class='mb-4 text-rose-600'>💗 It's Cool to Be Kind</h2>
             <p>Your words online can change the picture. Choose kindness first.</p>
-            <ul class='list-disc pl-6 mt-3 space-y-2'>
-              <li>Think: Would you say it face-to-face?</li>
+            <ul class='list-disc pl-8 mt-4 space-y-4'>
+              <li>Think: Would you say it face‑to‑face?</li>
               <li>Post Positives: Compliment, encourage, include.</li>
               <li>Pause & Reread before you send.</li>
               <li>If someone’s hurt online, leave a kind comment and tell a trusted adult.</li>
@@ -145,8 +186,8 @@
       {
         title: "Day 4 — Warm Up",
         content: `
-          <div class='slide max-w-[1200px]'>
-            <h2 class='mb-2 text-emerald-600'>✍️ Warm Up</h2>
+          <div class='slide max-w-[1300px]'>
+            <h2 class='mb-4 text-emerald-600'>✍️ Warm Up</h2>
             <p>In your journal: Write your heading. Then add <strong>one reflection</strong> about our contract and <strong>one observation</strong> about bridges — how they’re able to hold so many cars and people.</p>
           </div>
         `,
@@ -157,10 +198,10 @@
       {
         title: "Day 4 — Project Challenge: Build a Bridge! + Roles",
         content: `
-          <div class='slide max-w-[1200px]'>
-            <h2 class='mb-2 text-indigo-600'>⚙️ Build a Bridge!</h2>
+          <div class='slide max-w-[1300px]'>
+            <h2 class='mb-4 text-indigo-600'>⚙️ Build a Bridge!</h2>
             <p>Your mission: build a bridge strong enough to hold at least <strong>10 textbooks</strong>.</p>
-            <ul class='list-disc pl-6 mt-3 space-y-2'>
+            <ul class='list-disc pl-8 mt-4 space-y-4'>
               <li><strong>Supplies:</strong> cardboard, straws, tape, string, paperclips.</li>
               <li><strong>Time:</strong> 20 minutes to design and build. ⏱️</li>
               <li><strong>Team Roles (pick one):</strong> 🧠 Designer · 🏗️ Builder · 🧲 Stabilizer · ⏱️ Timekeeper</li>
@@ -175,18 +216,18 @@
       {
         title: "Day 4 — Reflection & Bridge Rubric",
         content: `
-          <div class='slide max-w-[1200px]'>
-            <h2 class='mb-2 text-fuchsia-600'>💬 Reflection</h2>
-            <ul class='list-disc pl-6 mt-3 space-y-2'>
+          <div class='slide max-w-[1300px]'>
+            <h2 class='mb-4 text-fuchsia-600'>💬 Reflection</h2>
+            <ul class='list-disc pl-8 mt-4 space-y-4'>
               <li>Did your team follow our promises?</li>
               <li>What worked well in your design?</li>
               <li>What would you try differently next time?</li>
             </ul>
-            <h2 class='mt-6 mb-2 text-green-600'>📏 Bridge Rubric</h2>
-            <ul class='list-disc pl-6 mt-3 space-y-2'>
+            <h2 class='mt-8 mb-4 text-green-600'>📏 Bridge Rubric</h2>
+            <ul class='list-disc pl-8 mt-2 space-y-4'>
               <li><strong>3 pts — Strength:</strong> Strongest bridge (holds the most weight) using materials effectively.</li>
               <li><strong>2 pts — Stability:</strong> Remains freestanding for <strong>10 seconds</strong> during testing.</li>
-              <li><strong>1 pt — Teamwork:</strong> Roles used respectfully; positive, on-task collaboration.</li>
+              <li><strong>1 pt — Teamwork:</strong> Roles used respectfully; positive, on‑task collaboration.</li>
             </ul>
           </div>
         `,
@@ -195,9 +236,9 @@
       {
         title: "Day 4 — Digital Citizenship: When in Doubt, Talk It Out",
         content: `
-          <div class='slide max-w-[1200px]'>
-            <h2 class='mb-2 text-rose-600'>🛡️ When in Doubt, Talk It Out</h2>
-            <ul class='list-disc pl-6 mt-3 space-y-2'>
+          <div class='slide max-w-[1300px]'>
+            <h2 class='mb-4 text-rose-600'>🛡️ When in Doubt, Talk It Out</h2>
+            <ul class='list-disc pl-8 mt-4 space-y-4'>
               <li>See something confusing or mean online? <strong>Pause.</strong></li>
               <li>Tell a trusted adult and a class helper.</li>
               <li>Be brave and be a helper — include others, report, and support.</li>
@@ -209,8 +250,8 @@
       {
         title: "Day 4 — Clean Up Game",
         content: `
-          <div class='slide max-w-[1200px]'>
-            <h2 class='mb-2 text-amber-600'>🧹 Clean Up Game</h2>
+          <div class='slide max-w-[1300px]'>
+            <h2 class='mb-4 text-amber-600'>🧹 Clean Up Game</h2>
             <p>After projects: return supplies, stack chairs, and reset the room. Which group finishes first (and neatest)?</p>
           </div>
         `,
@@ -292,3 +333,4 @@
   </script>
 </body>
 </html>
+
