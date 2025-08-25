@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STEM Mission: Energy & Waves</title>
+    <!-- Use a fun, readable font for a 4th-grade audience -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* General page and container styling for a full-screen smart board view */
+        body {
+            background-color: #e0f2fe; /* Light blue background */
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            color: #333;
+        }
+
+        /* Main presentation container */
+        #presentation-container {
+            background-color: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            width: 90vw;
+            height: 85vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+
+        /* Slide content styling */
+        .slide {
+            flex-grow: 1; /* Pushes content to the top */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            display: none; /* Hide all slides by default */
+        }
+
+        .slide.active {
+            display: flex; /* Show only the active slide */
+        }
+
+        .slide h1, .slide h2 {
+            font-size: 3.5rem;
+            color: #0c4a6e;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .slide p {
+            font-size: 1.8rem;
+            line-height: 1.5;
+            max-width: 80%;
+        }
+
+        .slide ul {
+            font-size: 1.8rem;
+            text-align: left;
+            list-style-type: none; /* Remove default bullets */
+            padding-left: 0;
+        }
+        
+        /* Custom list style with emojis */
+        .slide ul li {
+            margin-bottom: 15px;
+            text-indent: -1em;
+            padding-left: 1em;
+        }
+        
+        /* Specific styling for the STEA slide */
+        #slide-2 p {
+            font-size: 2rem;
+            margin-bottom: 5px;
+        }
+
+        /* Navigation buttons styling */
+        .navigation-buttons {
+            display: flex;
+            gap: 20px;
+            position: absolute;
+            bottom: 40px;
+            right: 40px;
+        }
+        
+        .nav-btn {
+            font-size: 1.5rem;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            color: white;
+            background-color: #3b82f6; /* Blue navigation buttons */
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Timer and controls styling */
+        .timer-controls {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        #timer-display {
+            font-size: 4rem;
+            font-weight: bold;
+            color: #ef4444; /* A bright red */
+            margin-bottom: 15px;
+            min-width: 150px;
+        }
+
+        #timer-slider {
+            width: 60%;
+            max-width: 400px;
+            -webkit-appearance: none;
+            appearance: none;
+            height: 15px;
+            background: #d1d5db;
+            outline: none;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        #timer-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 35px;
+            height: 35px;
+            background: #22c55e; /* Green thumb */
+            cursor: pointer;
+            border-radius: 50%;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .timer-buttons {
+            display: flex;
+            gap: 20px;
+        }
+
+        .timer-button {
+            font-size: 1.5rem;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            color: white;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        #start-btn { background-color: #22c55e; } /* Green */
+        #pause-btn { background-color: #f59e0b; } /* Yellow */
+        #reset-btn { background-color: #ef4444; } /* Red */
+    </style>
+</head>
+<body>
+
+    <div id="presentation-container">
+        <!-- All presentation slides go here -->
+        <!-- Slide 1: Warm-up / Hook - DAY 3 -->
+        <div id="slide-1" class="slide active">
+            <h2>Welcome, Future Astronauts! 🚀</h2>
+            <p>Our mission is to develop an **electrical warning system** to alert astronauts on a spaceship of potential asteroid collisions. 💥</p>
+            <p>What do you think is the biggest difference between a tiny pebble hitting a window and a huge asteroid hitting a spaceship? 🤔</p>
+        </div>
+        
+        <!-- Slide 2: Rules and Journal - DAY 3 -->
+        <div id="slide-2" class="slide">
+            <h2>Our Mission Rules! 🎯</h2>
+            <p>We're going to work in teams to solve this mission! Before we start, let's talk about our **STEA Journals** and our rules:</p>
+            <ul>
+                <li>📝 **S**cience: What are we learning? (Energy and Waves!)</li>
+                <li>🛠️ **T**echnology: What tools are we using? (Vex Go! 🤖)</li>
+                <li>🏗️ **E**ngineering: How are we building and designing our solution?</li>
+                <li>🎨 **A**rt/Math: How are we making it look and work just right?</li>
+            </ul>
+            <p>Your **STEA Journal** is your space to write, draw, and track all your amazing ideas. Keep it safe! ✨</p>
+        </div>
+
+        <!-- Slide 3: Key Concept - Energy Transformations - DAY 3 -->
+        <div id="slide-3" class="slide">
+            <h2>Energy on the Move! ⚡</h2>
+            <p>When an object is in motion, it has **motion energy** (or kinetic energy). When it collides with something, that energy doesn't disappear! It changes into other kinds of energy.</p>
+            <p>It's called **energy transformation**!</p>
+            <p>Motion Energy ➡️ **Sound** Energy 🔊</p>
+            <p>Motion Energy ➡️ **Electrical** Energy 🔌</p>
+            <p>Electrical Energy ➡️ **Light** Energy 💡</p>
+        </div>
+
+        <!-- Slide 4: Interactive Moment - DAY 3 -->
+        <div id="slide-4" class="slide">
+            <h2>Let's Get Building! 🏗️</h2>
+            <p>Time to design! In your teams, think about our mission: to build a warning system.</p>
+            <p>👉 How could we use the **motion energy** of an asteroid collision to create a **sound** or a **light** that would warn the astronauts?</p>
+            <p>Start sketching your ideas in your **STEA Journal** and be ready to share! ✏️</p>
+            <p>Let's use the timer for a 5-minute brainstorm! ⏰</p>
+        </div>
+
+        <!-- Slide 5: Warm-up / Hook - DAY 4 -->
+        <div id="slide-5" class="slide">
+            <h2>Day 4 Mission! 📡</h2>
+            <p>Yesterday, we used energy to make a warning system. Today, we're going to use energy to **communicate**!</p>
+            <p>Think about this: What system using light or sound could reach people over a long distance? 🗣️💡</p>
+            <p>Think of Morse code, a lighthouse, or even a cell phone call! 📞</p>
+        </div>
+
+        <!-- Slide 6: Key Concept - Wave Energy - DAY 4 -->
+        <div id="slide-6" class="slide">
+            <h2>Wacky Waves! 🌊</h2>
+            <p>Light and sound both travel as **waves**!</p>
+            <p>Waves have two main parts: **Wavelength** and **Amplitude**.</p>
+            <p>👉 **Wavelength:** The distance between the waves. Think of the distance between two waves at the beach! 🏖️</p>
+            <p>👉 **Amplitude:** The height of the wave. A taller wave is a stronger, louder sound or a brighter light! 📈</p>
+            <p>Let's find out how we can use these waves to send a message!</p>
+        </div>
+
+        <!-- Slide 7: Interactive Moment - DAY 4 -->
+        <div id="slide-7" class="slide">
+            <h2>Wave Challenge! 🎢</h2>
+            <p>Grab a partner and a long rope or a Slinky toy. Let one person hold each end.</p>
+            <p>Challenge 1: Make a slow, long wave. Look at its **wavelength**! ↔️</p>
+            <p>Challenge 2: Make a fast, short wave. What's the difference? 🤏</p>
+            <p>Challenge 3: Try to make a big wave. See how its **amplitude** is taller! ⬆️</p>
+            <p>What do you think? How could we use these different wave types to send a secret message? 🤫</p>
+        </div>
+
+        <!-- Slide 8: Wrap-up - DAY 4 -->
+        <div id="slide-8" class="slide">
+            <h2>Mission Complete! ✅</h2>
+            <p>You did it! You've learned how energy transforms and how light and sound waves can be used to send signals.</p>
+            <p>Our final mission is to **create an emergency signaling system** and show how it interacts with the eye or ear. You've got all the tools you need in your brain now!</p>
+            <p>Any last thoughts or questions about our mission before we start our final project? 🤩</p>
+        </div>
+
+        <!-- Timer and navigation controls at the bottom -->
+        <div class="timer-controls">
+            <span id="timer-display">05:00</span>
+            <input type="range" id="timer-slider" min="0" max="600" value="300">
+            <div class="timer-buttons">
+                <button id="start-btn" class="timer-button">▶️ Start</button>
+                <button id="pause-btn" class="timer-button">⏸️ Pause</button>
+                <button id="reset-btn" class="timer-button">🔄 Reset</button>
+            </div>
+        </div>
+
+        <div class="navigation-buttons">
+            <button id="prev-btn" class="nav-btn">⬅️ Previous</button>
+            <button id="next-btn" class="nav-btn">Next ➡️</button>
+        </div>
+    </div>
+
+    <script>
+        // Get all the elements we need to control the presentation
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        let currentSlide = 0;
+
+        // Timer variables and elements
+        const timerDisplay = document.getElementById('timer-display');
+        const timerSlider = document.getElementById('timer-slider');
+        const startBtn = document.getElementById('start-btn');
+        const pauseBtn = document.getElementById('pause-btn');
+        const resetBtn = document.getElementById('reset-btn');
+
+        let countdown;
+        let timeLeft;
+        let isPaused = false;
+
+        // Function to show the current slide and hide all others
+        function showSlide(n) {
+            // Hide all slides
+            slides.forEach(slide => slide.classList.remove('active'));
+            // Show the selected slide
+            slides[n].classList.add('active');
+        }
+
+        // Function to move to the next slide
+        function nextSlide() {
+            currentSlide++;
+            if (currentSlide >= slides.length) {
+                currentSlide = 0; // Loop back to the beginning
+            }
+            showSlide(currentSlide);
+        }
+
+        // Function to move to the previous slide
+        function prevSlide() {
+            currentSlide--;
+            if (currentSlide < 0) {
+                currentSlide = slides.length - 1; // Loop back to the end
+            }
+            showSlide(currentSlide);
+        }
+
+        // Add event listeners for slide navigation
+        nextBtn.addEventListener('click', nextSlide);
+        prevBtn.addEventListener('click', prevSlide);
+        
+        // Show the first slide when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            showSlide(currentSlide);
+        });
+        
+        // --- Timer Functions ---
+        // Function to format the time into minutes and seconds
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainderSeconds = seconds % 60;
+            const displayMinutes = String(minutes).padStart(2, '0');
+            const displaySeconds = String(remainderSeconds).padStart(2, '0');
+            return `${displayMinutes}:${displaySeconds}`;
+        }
+
+        // Function to update the timer display and slider
+        function updateTimer(seconds) {
+            timerDisplay.textContent = formatTime(seconds);
+            timerSlider.value = seconds;
+        }
+
+        // This function starts the countdown
+        function startTimer() {
+            if (countdown) {
+                return; // Prevent starting multiple timers
+            }
+            isPaused = false;
+            timeLeft = parseInt(timerSlider.value, 10);
+            
+            countdown = setInterval(() => {
+                if (!isPaused) {
+                    timeLeft--;
+                    updateTimer(timeLeft);
+                    
+                    if (timeLeft <= 0) {
+                        clearInterval(countdown);
+                        timerDisplay.textContent = "TIME'S UP! 🔔";
+                        countdown = null;
+                    }
+                }
+            }, 1000);
+        }
+
+        // This function pauses the countdown
+        function pauseTimer() {
+            isPaused = true;
+            clearInterval(countdown);
+            countdown = null;
+        }
+
+        // This function resets the timer to the slider's current value
+        function resetTimer() {
+            clearInterval(countdown);
+            countdown = null;
+            isPaused = false;
+            const initialTime = parseInt(timerSlider.value, 10);
+            timeLeft = initialTime;
+            updateTimer(initialTime);
+        }
+
+        // Event listeners for the timer buttons and slider
+        startBtn.addEventListener('click', startTimer);
+        pauseBtn.addEventListener('click', pauseTimer);
+        resetBtn.addEventListener('click', resetTimer);
+        timerSlider.addEventListener('input', (e) => {
+            const newTime = parseInt(e.target.value, 10);
+            if (!isPaused) { // Only update display if not paused
+                updateTimer(newTime);
+            }
+        });
+
+        // Set initial timer value from slider on page load
+        window.onload = function() {
+            const initialTime = parseInt(timerSlider.value, 10);
+            updateTimer(initialTime);
+        };
+    </script>
+</body>
+</html>
