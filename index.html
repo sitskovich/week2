@@ -3,398 +3,264 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STEM Mission: Energy & Waves</title>
-    <!-- Use a fun, readable font for a 4th-grade audience -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <title>STEM Presentation: Days 3 & 4</title>
+    <!-- Tailwind CSS for modern, responsive styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for the 'Inter' font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* General page and container styling for a full-screen smart board view */
         body {
-            background-color: #e0f2fe; /* Light blue background */
-            margin: 0;
             font-family: 'Inter', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            overflow: hidden;
-            color: #333;
+            background-color: #e0f2fe; /* Light blue background */
         }
-
-        /* Main presentation container */
-        #presentation-container {
-            background-color: #ffffff;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            padding: 40px;
-            width: 90vw;
-            height: 85vh;
+        .slide {
+            height: 100vh;
+            width: 100vw;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
+            padding: 2rem;
             text-align: center;
+            background-color: white;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+            margin: 1rem 0;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
             position: relative;
         }
-
-        /* Slide content styling */
-        .slide {
-            flex-grow: 1; /* Pushes content to the top */
+        .slide.active {
+            opacity: 1;
+        }
+        .slide h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #1e40af; /* Dark blue for titles */
+            margin-bottom: 1.5rem;
+        }
+        .slide .content {
+            max-width: 800px;
+            font-size: 1.25rem;
+            line-height: 1.6;
+        }
+        .image-placeholder {
+            background-color: #f1f5f9;
+            color: #94a3b8;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            width: 100%;
-            height: 100%;
-            display: none; /* Hide all slides by default */
+            border-radius: 1rem;
+            border: 2px dashed #94a3b8;
+            margin: 1.5rem 0;
+            overflow: hidden;
+            width: 90%;
+            max-width: 600px;
         }
-
-        .slide.active {
-            display: flex; /* Show only the active slide */
-        }
-
-        .slide h1, .slide h2 {
-            font-size: 3.5rem;
-            color: #0c4a6e;
-            margin-bottom: 20px;
-            font-weight: 700;
-        }
-
-        .slide p {
-            font-size: 1.8rem;
-            line-height: 1.5;
-            max-width: 80%;
-        }
-
-        .slide ul {
-            font-size: 1.8rem;
-            text-align: left;
-            list-style-type: none; /* Remove default bullets */
-            padding-left: 0;
-        }
-        
-        /* Custom list style with emojis */
-        .slide ul li {
-            margin-bottom: 15px;
-            text-indent: -1em;
-            padding-left: 1em;
-        }
-        
-        /* Specific styling for the STEA slide */
-        #slide-2 p {
-            font-size: 2rem;
-            margin-bottom: 5px;
-        }
-
-        /* Navigation buttons styling */
-        .navigation-buttons {
-            display: flex;
-            gap: 20px;
+        .timer {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #ef4444; /* Red timer */
+            background-color: #fee2e2;
+            padding: 0.5rem 1.5rem;
+            border-radius: 1rem;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 1rem;
             position: absolute;
-            bottom: 40px;
-            right: 40px;
+            top: 2rem;
+            right: 2rem;
         }
-        
-        .nav-btn {
-            font-size: 1.5rem;
-            padding: 15px 30px;
-            border: none;
-            border-radius: 30px;
-            cursor: pointer;
-            font-weight: bold;
-            color: white;
-            background-color: #3b82f6; /* Blue navigation buttons */
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .nav-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-        }
-
-        /* Timer and controls styling */
-        .timer-controls {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-            position: absolute;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        #timer-display {
-            font-size: 4rem;
-            font-weight: bold;
-            color: #ef4444; /* A bright red */
-            margin-bottom: 15px;
-            min-width: 150px;
-        }
-
-        #timer-slider {
-            width: 60%;
-            max-width: 400px;
-            -webkit-appearance: none;
-            appearance: none;
-            height: 15px;
-            background: #d1d5db;
-            outline: none;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
-
-        #timer-slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 35px;
-            height: 35px;
-            background: #22c55e; /* Green thumb */
-            cursor: pointer;
-            border-radius: 50%;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        }
-
-        .timer-buttons {
-            display: flex;
-            gap: 20px;
-        }
-
-        .timer-button {
-            font-size: 1.5rem;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: bold;
-            color: white;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-        
-        #start-btn { background-color: #22c55e; } /* Green */
-        #pause-btn { background-color: #f59e0b; } /* Yellow */
-        #reset-btn { background-color: #ef4444; } /* Red */
     </style>
 </head>
 <body>
 
-    <div id="presentation-container">
-        <!-- All presentation slides go here -->
-        <!-- Slide 1: Warm-up / Hook - DAY 3 -->
-        <div id="slide-1" class="slide active">
-            <h2>Welcome, Future Astronauts! 🚀</h2>
-            <p>Our mission is to develop an **electrical warning system** to alert astronauts on a spaceship of potential asteroid collisions. 💥</p>
-            <p>What do you think is the biggest difference between a tiny pebble hitting a window and a huge asteroid hitting a spaceship? 🤔</p>
-        </div>
-        
-        <!-- Slide 2: Rules and Journal - DAY 3 -->
-        <div id="slide-2" class="slide">
-            <h2>Our Mission Rules! 🎯</h2>
-            <p>We're going to work in teams to solve this mission! Before we start, let's talk about our **STEA Journals** and our rules:</p>
-            <ul>
-                <li>📝 **S**cience: What are we learning? (Energy and Waves!)</li>
-                <li>🛠️ **T**echnology: What tools are we using? (Vex Go! 🤖)</li>
-                <li>🏗️ **E**ngineering: How are we building and designing our solution?</li>
-                <li>🎨 **A**rt/Math: How are we making it look and work just right?</li>
-            </ul>
-            <p>Your **STEA Journal** is your space to write, draw, and track all your amazing ideas. Keep it safe! ✨</p>
-        </div>
+<!-- Day 3 Slides -->
+<div id="slide-1" class="slide active">
+    <h1>🚀 Warm-up: Blast Off!</h1>
+    <div class="image-placeholder w-full h-[300px] md:h-[400px]">
+        <img src="https://placehold.co/600x400/1e40af/ffffff?text=Rocket+Launch" alt="A space shuttle lifting off" class="w-full h-full object-cover">
+    </div>
+    <div class="timer" id="countdown">5:00</div>
+    <div class="content">
+        <p><strong>Speaking Prompt:</strong></p>
+        <p>"Good morning, future scientists! Welcome back! Before we start, let's get our brains warmed up. Please find your journal, which is also your seat for today. Once you're settled, put a proper heading on your paper—that's your name, the date, and the topic 'Science Review.' For the next five minutes, I want you to think back to our last science class. What are three things you remember? Just write them down in your journal. Once the timer beeps, we'll do a quick 'Think-Pair-Share' with a partner to see what you both remembered. Ready? Let's go!"</p>
+    </div>
+</div>
 
-        <!-- Slide 3: Key Concept - Energy Transformations - DAY 3 -->
-        <div id="slide-3" class="slide">
-            <h2>Energy on the Move! ⚡</h2>
-            <p>When an object is in motion, it has **motion energy** (or kinetic energy). When it collides with something, that energy doesn't disappear! It changes into other kinds of energy.</p>
-            <p>It's called **energy transformation**!</p>
-            <p>Motion Energy ➡️ **Sound** Energy 🔊</p>
-            <p>Motion Energy ➡️ **Electrical** Energy 🔌</p>
-            <p>Electrical Energy ➡️ **Light** Energy 💡</p>
-        </div>
+<div id="slide-2" class="slide">
+    <h1>🧠 Unlocking Our Memories</h1>
+    <div class="image-placeholder w-full h-[300px] md:h-[400px]">
+        <img src="https://placehold.co/600x400/60a5fa/ffffff?text=Brain+with+Lightbulbs" alt="An animated brain with light bulbs turning on" class="w-full h-full object-cover">
+    </div>
+    <div class="content">
+        <p><strong>Speaking Prompt:</strong></p>
+        <p>"Alright, time's up! Now that you've had a chance to share with a partner, let's share as a whole class. What are some of the awesome facts, experiments, or ideas you remember from last week? Let’s hear a few! This is a great way to help our whole class 'unlock' their memories."</p>
+    </div>
+</div>
 
-        <!-- Slide 4: Interactive Moment - DAY 3 -->
-        <div id="slide-4" class="slide">
-            <h2>Let's Get Building! 🏗️</h2>
-            <p>Time to design! In your teams, think about our mission: to build a warning system.</p>
-            <p>👉 How could we use the **motion energy** of an asteroid collision to create a **sound** or a **light** that would warn the astronauts?</p>
-            <p>Start sketching your ideas in your **STEA Journal** and be ready to share! ✏️</p>
-            <p>Let's use the timer for a 5-minute brainstorm! ⏰</p>
+<div id="slide-3" class="slide">
+    <h1>📋 Our Class Mission Control: The Student Contract</h1>
+    <div class="flex flex-col md:flex-row justify-center items-center gap-6 my-6">
+        <div class="flex flex-col items-center bg-yellow-200 p-4 rounded-xl shadow-lg">
+            <svg class="w-16 h-16 text-yellow-800" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
+            <p class="mt-2 font-bold">Be a good teammate.</p>
         </div>
-
-        <!-- Slide 5: Warm-up / Hook - DAY 4 -->
-        <div id="slide-5" class="slide">
-            <h2>Day 4 Mission! 📡</h2>
-            <p>Yesterday, we used energy to make a warning system. Today, we're going to use energy to **communicate**!</p>
-            <p>Think about this: What system using light or sound could reach people over a long distance? 🗣️💡</p>
-            <p>Think of Morse code, a lighthouse, or even a cell phone call! 📞</p>
+        <div class="flex flex-col items-center bg-green-200 p-4 rounded-xl shadow-lg">
+            <svg class="w-16 h-16 text-green-800" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h2a1 1 0 001-1v-1a1 1 0 011-1h2a1 1 0 011 1v1a1 1 0 001 1h2a1 1 0 00.707-1.707L15 11.586V8a6 6 0 00-6-6z" clip-rule="evenodd" fill-rule="evenodd"></path></svg>
+            <p class="mt-2 font-bold">Be a brave explorer.</p>
         </div>
-
-        <!-- Slide 6: Key Concept - Wave Energy - DAY 4 -->
-        <div id="slide-6" class="slide">
-            <h2>Wacky Waves! 🌊</h2>
-            <p>Light and sound both travel as **waves**!</p>
-            <p>Waves have two main parts: **Wavelength** and **Amplitude**.</p>
-            <p>👉 **Wavelength:** The distance between the waves. Think of the distance between two waves at the beach! 🏖️</p>
-            <p>👉 **Amplitude:** The height of the wave. A taller wave is a stronger, louder sound or a brighter light! 📈</p>
-            <p>Let's find out how we can use these waves to send a message!</p>
+        <div class="flex flex-col items-center bg-pink-200 p-4 rounded-xl shadow-lg">
+            <svg class="w-16 h-16 text-pink-800" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.284 3.189a.75.75 0 00-.019 1.054L10.327 6.6A1.25 1.25 0 0110 7.854V11.5a.75.75 0 001.5 0V7.854a1.25 1.25 0 01-.327-1.115l1.062-2.351a.75.75 0 10-1.35-.61L9.67 4.54a.25.25 0 00-.466.01L7.545 3.19a.75.75 0 00-.019-1.054l-1.062-2.351a.75.75 0 10-1.35.61L9.67 4.54a.25.25 0 00-.466.01L7.545 3.19a.75.75 0 00-.019-1.054l-1.062-2.351a.75.75 0 10-1.35.61z" clip-rule="evenodd" fill-rule="evenodd"></path></svg>
+            <p class="mt-2 font-bold">Be a kind citizen.</p>
         </div>
-
-        <!-- Slide 7: Interactive Moment - DAY 4 -->
-        <div id="slide-7" class="slide">
-            <h2>Wave Challenge! 🎢</h2>
-            <p>Grab a partner and a long rope or a Slinky toy. Let one person hold each end.</p>
-            <p>Challenge 1: Make a slow, long wave. Look at its **wavelength**! ↔️</p>
-            <p>Challenge 2: Make a fast, short wave. What's the difference? 🤏</p>
-            <p>Challenge 3: Try to make a big wave. See how its **amplitude** is taller! ⬆️</p>
-            <p>What do you think? How could we use these different wave types to send a secret message? 🤫</p>
-        </div>
-
-        <!-- Slide 8: Wrap-up - DAY 4 -->
-        <div id="slide-8" class="slide">
-            <h2>Mission Complete! ✅</h2>
-            <p>You did it! You've learned how energy transforms and how light and sound waves can be used to send signals.</p>
-            <p>Our final mission is to **create an emergency signaling system** and show how it interacts with the eye or ear. You've got all the tools you need in your brain now!</p>
-            <p>Any last thoughts or questions about our mission before we start our final project? 🤩</p>
-        </div>
-
-        <!-- Timer and navigation controls at the bottom -->
-        <div class="timer-controls">
-            <span id="timer-display">05:00</span>
-            <input type="range" id="timer-slider" min="0" max="600" value="300">
-            <div class="timer-buttons">
-                <button id="start-btn" class="timer-button">▶️ Start</button>
-                <button id="pause-btn" class="timer-button">⏸️ Pause</button>
-                <button id="reset-btn" class="timer-button">🔄 Reset</button>
-            </div>
-        </div>
-
-        <div class="navigation-buttons">
-            <button id="prev-btn" class="nav-btn">⬅️ Previous</button>
-            <button id="next-btn" class="nav-btn">Next ➡️</button>
+        <div class="flex flex-col items-center bg-blue-200 p-4 rounded-xl shadow-lg">
+            <svg class="w-16 h-16 text-blue-800" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a8 8 0 100 16 8 8 0 000-16zM5 8a1 1 0 112 0v2a1 1 0 11-2 0V8zM13 8a1 1 0 112 0v2a1 1 0 11-2 0V8zM9 13a1 1 0 102 0v-1a1 1 0 10-2 0v1z"></path></svg>
+            <p class="mt-2 font-bold">Be a great thinker.</p>
         </div>
     </div>
+    <div class="content">
+        <p><strong>Speaking Prompt:</strong></p>
+        <p>"Every great team, whether it's a sports team or a team of astronauts, has rules and promises they make to each other. We are a team, and our 'Student Contract' is our promise to make this a safe, fun, and amazing STEM year. Take a look at these classroom norms. Let's talk about why each one is so important for our work. On your desk, with a dry-erase marker, write down one reason why you think it’s important to always follow these rules. For example, why is it so important to 'be a good teammate'?"</p>
+    </div>
+</div>
 
-    <script>
-        // Get all the elements we need to control the presentation
-        const slides = document.querySelectorAll('.slide');
-        const prevBtn = document.getElementById('prev-btn');
-        const nextBtn = document.getElementById('next-btn');
-        let currentSlide = 0;
+<div id="slide-4" class="slide">
+    <h1>✅ Your Mission, Should You Choose to Accept It...</h1>
+    <div class="image-placeholder w-full h-[300px] md:h-[400px]">
+        <img src="https://placehold.co/600x400/4f46e5/ffffff?text=Top+Secret+Homework+Folder" alt="A cool, mission-style graphic of a clipboard" class="w-full h-full object-cover">
+    </div>
+    <div class="content">
+        <p><strong>Speaking Prompt:</strong></p>
+        <p>"This is your official homework mission! I'm going to pass out your very own Student Contracts. Your job is to take this paper home tonight, read it with a grown-up, and have them sign it to show they support our class. Bring it back tomorrow so we can officially start our STEM team!"</p>
+    </div>
+</div>
 
-        // Timer variables and elements
-        const timerDisplay = document.getElementById('timer-display');
-        const timerSlider = document.getElementById('timer-slider');
-        const startBtn = document.getElementById('start-btn');
-        const pauseBtn = document.getElementById('pause-btn');
-        const resetBtn = document.getElementById('reset-btn');
+<div id="slide-5" class="slide">
+    <h1>💻 Digital Citizens of the World!</h1>
+    <div class="image-placeholder w-full h-[300px] md:h-[400px]">
+        <img src="https://placehold.co/600x400/93c5fd/ffffff?text=Be+Internet+Awesome" alt="The Be Internet Awesome graphic with the five themes: Smart, Alert, Strong, Kind, Brave. 'Kind' is highlighted." class="w-full h-full object-cover">
+    </div>
+    <div class="content">
+        <p><strong>Speaking Prompt:</strong></p>
+        <p>"Now that we know how to be a great team in the classroom, let's think about how we can be amazing teammates online. We're going to talk about being an 'Internet Kind' citizen. Why do you think it's just as important to be kind online as it is in person? (Think-Pair-Share). Sometimes, it can be tricky to tell how someone is feeling online. What are some ways we can make sure our words and actions are always kind on a screen?"</p>
+    </div>
+</div>
 
-        let countdown;
-        let timeLeft;
-        let isPaused = false;
+<div id="slide-6" class="slide">
+    <h1>✨ Wrap-up & Clean-up Crew</h1>
+    <div class="image-placeholder w-full h-[300px] md:h-[400px]">
+        <img src="https://placehold.co/600x400/fecaca/ffffff?text=Messy+vs+Clean+Classroom" alt="A before and after picture of a messy and a clean classroom" class="w-full h-full object-cover">
+    </div>
+    <div class="content">
+        <p><strong>Speaking Prompt:</strong></p>
+        <p>"What an awesome day! We reviewed what we know, we talked about our class promises, and we learned about being kind online. Now for our final mission of the day: clean-up! A tidy lab is a happy lab. Let's work together to put everything away where it belongs. I need three 'Clean-up Crew' captains today to lead the charge! Did You Know? A clean workspace helps our brains think more clearly for the next day's adventures."</p>
+    </div>
+</div>
 
-        // Function to show the current slide and hide all others
-        function showSlide(n) {
-            // Hide all slides
-            slides.forEach(slide => slide.classList.remove('active'));
-            // Show the selected slide
-            slides[n].classList.add('active');
-        }
+<!-- Day 4 Slides -->
+<div id="slide-7" class="slide">
+    <h1>🌎 Warm-up: What Shapes Our World?</h1>
+    <div class="image-placeholder w-full h-[300px] md:h-[400px]">
+        <img src="https://placehold.co/600x400/a3e635/ffffff?text=Mountain+Beach+Canyon+Volcano" alt="A collage of different landscapes: a mountain range, a sandy beach, a deep canyon, and a volcano erupting." class="w-full h-full object-cover">
+    </div>
+    <div class="content">
+        <p><strong>Speaking Prompt:</strong></p>
+        <p>"Good morning, everyone! Today, our brains are going to be like rock detectives. Look at the pictures on the screen. What do you see? Now, here's a riddle: I can wear away a tall mountain, and I can carve a deep canyon. I am always changing the world, but you can't see me. What do you think I am? Talk with your partner about things that you know can change the Earth's surface. We have 5 minutes to think and share!"</p>
+    </div>
+</div>
 
-        // Function to move to the next slide
-        function nextSlide() {
-            currentSlide++;
-            if (currentSlide >= slides.length) {
-                currentSlide = 0; // Loop back to the beginning
+<div id="slide-8" class="slide">
+    <h1>⛏️ Mission Briefing: The Changing Earth!</h1>
+    <div class="image-placeholder w-full h-[300px] md:h-[400px]">
+        <img src="https://placehold.co/600x400/fde047/ffffff?text=Minecraft+Logo+and+Billboard" alt="The Minecraft logo next to an image of a Minecraft-themed billboard." class="w-full h-full object-cover">
+    </div>
+    <div class="content">
+        <p><strong>Speaking Prompt:</strong></p>
+        <p>"Welcome to your first big mission! Today, we're diving into our new project all about how the Earth's surface changes over time. Your team's big mission is to create a super-cool ad for a new coal-mining project! Your ad needs to show why this work is important. We'll be using Minecraft to design our billboards and ads. We'll start by brainstorming some ideas!"</p>
+    </div>
+</div>
+
+<div id="slide-9" class="slide">
+    <h1>🎨 Hands-on Challenge: Minecraft Brainstorm!</h1>
+    <div class="image-placeholder w-full h-[300px] md:h-[400px]">
+        <img src="https://placehold.co/600x400/c7d2fe/ffffff?text=Students+Brainstorming" alt="A group of students gathered around a whiteboard or large paper, drawing and writing ideas." class="w-full h-full object-cover">
+    </div>
+    <div class="content">
+        <p><strong>Speaking Prompt:</strong></p>
+        <p>"Okay, it's time to get creative! I want you to get with your small groups and grab a whiteboard and some markers. You are going to brainstorm ideas for your Minecraft-themed ad. Think about what we just discussed—things that change the Earth's surface. How can you show that in a cool way on a billboard? What pictures would you use? What words would you write? Draw your ideas and get ready to share some with the class!"</p>
+    </div>
+</div>
+
+<div id="slide-10" class="slide">
+    <h1>🪨 Real-World Rock Stars</h1>
+    <div class="image-placeholder w-full h-[300px] md:h-[400px]">
+        <img src="https://placehold.co/600x400/9ca3af/ffffff?text=Geologist+with+Rock+Hammer" alt="A photo of a geologist with a rock hammer or a picture of a satellite image showing erosion over time." class="w-full h-full object-cover">
+    </div>
+    <div class="content">
+        <p><strong>Speaking Prompt:</strong></p>
+        <p>"This isn't just a fun project, it's connected to real-world jobs! Geologists are scientists who study the Earth's rocks and how its surface changes. They use special tools and their knowledge to understand how landforms are created, and how we can use natural resources like coal in a safe and responsible way. Your mission is just like a mini-geology project!"</p>
+    </div>
+</div>
+
+<div id="slide-11" class="slide">
+    <h1>👍 Final Countdown & Tomorrow's Mission</h1>
+    <div class="image-placeholder w-full h-[300px] md:h-[400px]">
+        <img src="https://placehold.co/600x400/22c55e/ffffff?text=Minecraft+Character" alt="An image of a Minecraft character smiling or giving a thumbs-up." class="w-full h-full object-cover">
+    </div>
+    <div class="content">
+        <p><strong>Speaking Prompt:</strong></p>
+        <p>"You all did an amazing job today! We thought like rock detectives, brainstormed like Minecraft designers, and learned about a real-world job. Did You Know? The Grand Canyon, one of the biggest canyons in the world, was carved by a river over millions of years! Tomorrow's Mission: We will be using the iPad's to continue designing your Minecraft ads and we'll start building your models in the game! Make sure you get your contracts signed tonight!"</p>
+    </div>
+</div>
+
+<script>
+    // JavaScript for the countdown timer on the first slide
+    document.addEventListener('DOMContentLoaded', () => {
+        const timerElement = document.getElementById('countdown');
+        let timeLeft = 5 * 60; // 5 minutes in seconds
+
+        function updateTimer() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+
+            if (timeLeft <= 0) {
+                // Timer is done, clear the interval
+                clearInterval(timerInterval);
+                timerElement.textContent = 'Time Up!';
+            } else {
+                timeLeft--;
             }
-            showSlide(currentSlide);
         }
 
-        // Function to move to the previous slide
-        function prevSlide() {
-            currentSlide--;
-            if (currentSlide < 0) {
-                currentSlide = slides.length - 1; // Loop back to the end
+        const timerInterval = setInterval(updateTimer, 1000);
+        updateTimer(); // Initial call to display the timer immediately
+    });
+
+    // Simple script to cycle through the slides for a demo purpose.
+    // In a real presentation, you would advance slides with a click or keyboard.
+    const slides = document.querySelectorAll('.slide');
+    let currentSlide = 0;
+
+    function showSlide(index) {
+        slides.forEach((slide, i) => {
+            slide.classList.remove('active');
+            if (i === index) {
+                slide.classList.add('active');
             }
-            showSlide(currentSlide);
-        }
-
-        // Add event listeners for slide navigation
-        nextBtn.addEventListener('click', nextSlide);
-        prevBtn.addEventListener('click', prevSlide);
-        
-        // Show the first slide when the page loads
-        document.addEventListener('DOMContentLoaded', () => {
-            showSlide(currentSlide);
         });
-        
-        // --- Timer Functions ---
-        // Function to format the time into minutes and seconds
-        function formatTime(seconds) {
-            const minutes = Math.floor(seconds / 60);
-            const remainderSeconds = seconds % 60;
-            const displayMinutes = String(minutes).padStart(2, '0');
-            const displaySeconds = String(remainderSeconds).padStart(2, '0');
-            return `${displayMinutes}:${displaySeconds}`;
-        }
+    }
 
-        // Function to update the timer display and slider
-        function updateTimer(seconds) {
-            timerDisplay.textContent = formatTime(seconds);
-            timerSlider.value = seconds;
-        }
+    // You can uncomment this section to have the slides advance automatically every 15 seconds
+    // to see a full preview, or you can add manual controls.
+    // setInterval(() => {
+    //     currentSlide = (currentSlide + 1) % slides.length;
+    //     showSlide(currentSlide);
+    // }, 15000); // Change slide every 15 seconds
+    
+</script>
 
-        // This function starts the countdown
-        function startTimer() {
-            if (countdown) {
-                return; // Prevent starting multiple timers
-            }
-            isPaused = false;
-            timeLeft = parseInt(timerSlider.value, 10);
-            
-            countdown = setInterval(() => {
-                if (!isPaused) {
-                    timeLeft--;
-                    updateTimer(timeLeft);
-                    
-                    if (timeLeft <= 0) {
-                        clearInterval(countdown);
-                        timerDisplay.textContent = "TIME'S UP! 🔔";
-                        countdown = null;
-                    }
-                }
-            }, 1000);
-        }
-
-        // This function pauses the countdown
-        function pauseTimer() {
-            isPaused = true;
-            clearInterval(countdown);
-            countdown = null;
-        }
-
-        // This function resets the timer to the slider's current value
-        function resetTimer() {
-            clearInterval(countdown);
-            countdown = null;
-            isPaused = false;
-            const initialTime = parseInt(timerSlider.value, 10);
-            timeLeft = initialTime;
-            updateTimer(initialTime);
-        }
-
-        // Event listeners for the timer buttons and slider
-        startBtn.addEventListener('click', startTimer);
-        pauseBtn.addEventListener('click', pauseTimer);
-        resetBtn.addEventListener('click', resetTimer);
-        timerSlider.addEventListener('input', (e) => {
-            const newTime = parseInt(e.target.value, 10);
-            if (!isPaused) { // Only update display if not paused
-                updateTimer(newTime);
-            }
-        });
-
-        // Set initial timer value from slider on page load
-        window.onload = function() {
-            const initialTime = parseInt(timerSlider.value, 10);
-            updateTimer(initialTime);
-        };
-    </script>
 </body>
 </html>
