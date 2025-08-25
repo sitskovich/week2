@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4th Grade STEM Presentation</title>
+    <!-- Use Tailwind CSS for modern, responsive styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #e0f2fe; /* A light blue background for a friendly feel */
+            padding: 1.5rem;
+        }
+
+        .slide-container {
+            max-width: 4xl;
+            margin: 0 auto;
+            background-color: #f0f9ff;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            padding: 2rem;
+            position: relative;
+        }
+
+        .slide {
+            display: none;
+            min-height: 50vh; /* Ensures a minimum height so the box doesn't jump */
+        }
+        .slide.active {
+            display: block;
+        }
+
+        .slide-footer {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 1.5rem;
+        }
+    </style>
+</head>
+<body class="p-6">
+
+    <!-- Main container for the entire slideshow -->
+    <div class="slide-container">
+
+        <!-- Slides are hidden by default and shown one by one -->
+        <!-- Slide 1: Warm-up -->
+        <div class="slide active">
+            <h1 class="text-4xl md:text-5xl font-bold text-center text-blue-800 mb-8">Day 3: Getting Ready for a Great Year!</h1>
+            <div class="bg-white p-6 rounded-2xl shadow-md border-b-4 border-blue-500">
+                <h2 class="text-2xl font-bold text-blue-700 mb-4">Slide 1: Warm-up: Blast Off! (5 minutes)</h2>
+                <div class="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4 mb-4">
+                    <!-- Placeholder for rocket image -->
+                    <img src="https://placehold.co/150x150/5B21B6/FFFFFF?text=Rocket" alt="A rocket lifting off" class="rounded-lg shadow-md">
+                    <p class="text-lg text-gray-800 flex-1">
+                        "Good morning, future scientists! Welcome back! Before we start, let's get our brains warmed up. Please find your journal, which is also your seat for today. Once you're settled, put a proper heading on your paper—that's your name, the date, and the topic 'Science Review.' For the next five minutes, I want you to think back to our last science class. What are three things you remember? Just write them down in your journal. Once the timer beeps, we'll do a quick 'Think-Pair-Share' with a partner to see what you both remembered. Ready? Let's go!"
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Unlocking Our Memories -->
+        <div class="slide">
+            <h1 class="text-4xl md:text-5xl font-bold text-center text-blue-800 mb-8">Day 3: Getting Ready for a Great Year!</h1>
+            <div class="bg-white p-6 rounded-2xl shadow-md border-b-4 border-blue-500">
+                <h2 class="text-2xl font-bold text-blue-700 mb-4">Slide 2: Unlocking Our Memories (5 minutes)</h2>
+                <div class="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4 mb-4">
+                    <!-- Placeholder for brain image -->
+                    <img src="https://placehold.co/150x150/CA8A04/FFFFFF?text=Brain+💡" alt="A cartoon brain with light bulbs" class="rounded-lg shadow-md">
+                    <p class="text-lg text-gray-800 flex-1">
+                        "Alright, time's up! Now that you've had a chance to share with a partner, let's share as a whole class. What are some of the awesome facts, experiments, or ideas you remember from last week? Let’s hear a few! This is a great way to help our whole class 'unlock' their memories."
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Our Class Mission Control -->
+        <div class="slide">
+            <h1 class="text-4xl md:text-5xl font-bold text-center text-blue-800 mb-8">Day 3: Getting Ready for a Great Year!</h1>
+            <div class="bg-white p-6 rounded-2xl shadow-md border-b-4 border-blue-500">
+                <h2 class="text-2xl font-bold text-blue-700 mb-4">Slide 3: Our Class Mission Control: The Student Contract</h2>
+                <p class="text-lg text-gray-800 mb-4">
+                    "Every great team, whether it's a sports team or a team of astronauts, has rules and promises they make to each other. We are a team, and our 'Student Contract' is our promise to make this a safe, fun, and amazing STEM year."
+                </p>
+                <div class="space-y-4">
+                    <div class="flex items-start">
+                        <span class="text-3xl text-blue-500 mr-3">🎤</span>
+                        <p class="text-lg text-gray-800 font-bold flex-1">Be a good teammate.</p>
+                        <p class="text-lg text-gray-600">(Listen with your ears and your heart.)</p>
+                    </div>
+                    <div class="flex items-start">
+                        <span class="text-3xl text-blue-500 mr-3">🚀</span>
+                        <p class="text-lg text-gray-800 font-bold flex-1">Be a brave explorer.</p>
+                        <p class="text-lg text-gray-600">(It’s okay to make mistakes!)</p>
+                    </div>
+                    <div class="flex items-start">
+                        <span class="text-3xl text-blue-500 mr-3">🤝</span>
+                        <p class="text-lg text-gray-800 font-bold flex-1">Be a kind citizen.</p>
+                        <p class="text-lg text-gray-600">(Kind words and actions are powerful!)</p>
+                    </div>
+                    <div class="flex items-start">
+                        <span class="text-3xl text-blue-500 mr-3">🧠</span>
+                        <p class="text-lg text-gray-800 font-bold flex-1">Be a great thinker.</p>
+                        <p class="text-lg text-gray-600">(Ask questions and try new ideas.)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Homework Mission -->
+        <div class="slide">
+            <h1 class="text-4xl md:text-5xl font-bold text-center text-blue-800 mb-8">Day 3: Getting Ready for a Great Year!</h1>
+            <div class="bg-white p-6 rounded-2xl shadow-md border-b-4 border-blue-500">
+                <h2 class="text-2xl font-bold text-blue-700 mb-4">Slide 4: Your Mission, Should You Choose to Accept It...</h2>
+                <div class="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4 mb-4">
+                    <!-- Placeholder for clipboard image -->
+                    <img src="https://placehold.co/150x150/DC2626/FFFFFF?text=Top+Secret" alt="A top secret clipboard" class="rounded-lg shadow-md">
+                    <p class="text-lg text-gray-800 flex-1">
+                        "This is your official homework mission! I'm going to pass out your very own Student Contracts. Your job is to take this paper home tonight, read it with a grown-up, and have them sign it to show they support our class. Bring it back tomorrow so we can officially start our STEM team!"
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Digital Citizens -->
+        <div class="slide">
+            <h1 class="text-4xl md:text-5xl font-bold text-center text-blue-800 mb-8">Day 3: Getting Ready for a Great Year!</h1>
+            <div class="bg-white p-6 rounded-2xl shadow-md border-b-4 border-blue-500">
+                <h2 class="text-2xl font-bold text-blue-700 mb-4">Slide 5: Digital Citizens of the World!</h2>
+                <div class="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4 mb-4">
+                    <!-- Placeholder for Be Internet Awesome graphic -->
+                    <img src="https://placehold.co/150x150/FACC15/FFFFFF?text=Be+Internet+Awesome" alt="Be Internet Awesome graphic" class="rounded-lg shadow-md">
+                    <p class="text-lg text-gray-800 flex-1">
+                        "Now that we know how to be a great team in the classroom, let's think about how we can be amazing teammates online. We're going to talk about being an 'Internet Kind' citizen. Why do you think it's just as important to be kind online as it is in person? (Think-Pair-Share). Sometimes, it can be tricky to tell how someone is feeling online. What are some ways we can make sure our words and actions are always kind on a screen?"
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Wrap-up & Clean-up -->
+        <div class="slide">
+            <h1 class="text-4xl md:text-5xl font-bold text-center text-blue-800 mb-8">Day 3: Getting Ready for a Great Year!</h1>
+            <div class="bg-white p-6 rounded-2xl shadow-md border-b-4 border-blue-500">
+                <h2 class="text-2xl font-bold text-blue-700 mb-4">Slide 6: Wrap-up & Clean-up Crew</h2>
+                <div class="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4 mb-4">
+                    <!-- Placeholder for clean-up image -->
+                    <img src="https://placehold.co/150x150/34D399/FFFFFF?text=Clean+up" alt="Before and after of a clean room" class="rounded-lg shadow-md">
+                    <p class="text-lg text-gray-800 flex-1">
+                        "What an awesome day! We reviewed what we know, we talked about our class promises, and we learned about being kind online. Now for our final mission of the day: clean-up! A tidy lab is a happy lab. Let's work together to put everything away where it belongs. I need three 'Clean-up Crew' captains today to lead the charge! Did You Know? A clean workspace helps our brains think more clearly for the next day's adventures."
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Warm-up (Day 4) -->
+        <div class="slide">
+            <h1 class="text-4xl md:text-5xl font-bold text-center text-blue-800 mb-8">Day 4: Our First Project Mission!</h1>
+            <div class="bg-white p-6 rounded-2xl shadow-md border-b-4 border-blue-500">
+                <h2 class="text-2xl font-bold text-blue-700 mb-4">Slide 7: Warm-up: What Shapes Our World? (5 minutes)</h2>
+                <div class="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4 mb-4">
+                    <!-- Placeholder for landscape collage -->
+                    <img src="https://placehold.co/150x150/06B6D4/FFFFFF?text=Mountains+|+Canyon" alt="A collage of mountains and a canyon" class="rounded-lg shadow-md">
+                    <p class="text-lg text-gray-800 flex-1">
+                        "Good morning, everyone! Today, our brains are going to be like rock detectives. Look at the pictures on the screen. What do you see? Now, here's a riddle:
+                        *I can wear away a tall mountain,
+                        and I can carve a deep canyon.
+                        I am always changing the world,
+                        but you can't see me.*
+                        What do you think I am? Talk with your partner about things that you know can change the Earth's surface. We have 5 minutes to think and share!"
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Mission Briefing (Day 4) -->
+        <div class="slide">
+            <h1 class="text-4xl md:text-5xl font-bold text-center text-blue-800 mb-8">Day 4: Our First Project Mission!</h1>
+            <div class="bg-white p-6 rounded-2xl shadow-md border-b-4 border-blue-500">
+                <h2 class="text-2xl font-bold text-blue-700 mb-4">Slide 8: Mission Briefing: The Changing Earth!</h2>
+                <div class="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4 mb-4">
+                    <!-- Placeholder for Minecraft logo and billboard -->
+                    <img src="https://placehold.co/150x150/10B981/FFFFFF?text=Minecraft" alt="A Minecraft logo next to a billboard" class="rounded-lg shadow-md">
+                    <p class="text-lg text-gray-800 flex-1">
+                        "Welcome to your first big mission! Today, we're diving into our new project all about how the Earth's surface changes over time. Your team's big mission is to create a super-cool ad for a new coal-mining project! Your ad needs to show why this work is important. We'll be using Minecraft to design our billboards and ads. We'll start by brainstorming some ideas!"
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Hands-on Challenge (Day 4) -->
+        <div class="slide">
+            <h1 class="text-4xl md:text-5xl font-bold text-center text-blue-800 mb-8">Day 4: Our First Project Mission!</h1>
+            <div class="bg-white p-6 rounded-2xl shadow-md border-b-4 border-blue-500">
+                <h2 class="text-2xl font-bold text-blue-700 mb-4">Slide 9: Hands-on Challenge: Minecraft Brainstorm!</h2>
+                <div class="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4 mb-4">
+                    <!-- Placeholder for students brainstorming -->
+                    <img src="https://placehold.co/150x150/FACC15/000000?text=Brainstorming" alt="Students brainstorming on a whiteboard" class="rounded-lg shadow-md">
+                    <p class="text-lg text-gray-800 flex-1">
+                        "Okay, it's time to get creative! I want you to get with your small groups and grab a whiteboard and some markers. You are going to brainstorm ideas for your Minecraft-themed ad. Think about what we just discussed—things that change the Earth's surface. How can you show that in a cool way on a billboard? What pictures would you use? What words would you write? Draw your ideas and get ready to share some with the class!"
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Real-World Rock Stars (Day 4) -->
+        <div class="slide">
+            <h1 class="text-4xl md:text-5xl font-bold text-center text-blue-800 mb-8">Day 4: Our First Project Mission!</h1>
+            <div class="bg-white p-6 rounded-2xl shadow-md border-b-4 border-blue-500">
+                <h2 class="text-2xl font-bold text-blue-700 mb-4">Slide 10: Real-World Rock Stars</h2>
+                <div class="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4 mb-4">
+                    <!-- Placeholder for geologist image -->
+                    <img src="https://placehold.co/150x150/F43F5E/FFFFFF?text=Geologist" alt="A scientist studying rocks" class="rounded-lg shadow-md">
+                    <p class="text-lg text-gray-800 flex-1">
+                        "This isn't just a fun project, it's connected to real-world jobs! Geologists are scientists who study the Earth's rocks and how its surface changes. They use special tools and their knowledge to understand how landforms are created, and how we can use natural resources like coal in a safe and responsible way. Your mission is just like a mini-geology project!"
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Final Countdown (Day 4) -->
+        <div class="slide">
+            <h1 class="text-4xl md:text-5xl font-bold text-center text-blue-800 mb-8">Day 4: Our First Project Mission!</h1>
+            <div class="bg-white p-6 rounded-2xl shadow-md border-b-4 border-blue-500">
+                <h2 class="text-2xl font-bold text-blue-700 mb-4">Slide 11: Final Countdown & Tomorrow's Mission</h2>
+                <div class="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4 mb-4">
+                    <!-- Placeholder for Minecraft character -->
+                    <img src="https://placehold.co/150x150/3B82F6/FFFFFF?text=Minecraft+Character" alt="A Minecraft character giving a thumbs up" class="rounded-lg shadow-md">
+                    <p class="text-lg text-gray-800 flex-1">
+                        "You all did an amazing job today! We thought like rock detectives, brainstormed like Minecraft designers, and learned about a real-world job. Did You Know? The Grand Canyon, one of the biggest canyons in the world, was carved by a river over millions of years! Tomorrow's Mission: We will be using the iPads to continue designing your Minecraft ads and we'll start building your models in the game! Make sure you get your contracts signed tonight!"
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="slide-footer">
+            <button id="nextBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-full shadow-lg transition duration-300 transform hover:scale-105">
+                Next Slide
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Get all the slides and the next button
+        const slides = document.querySelectorAll('.slide');
+        const nextBtn = document.getElementById('nextBtn');
+        let currentSlide = 0;
+
+        // Function to show a specific slide
+        function showSlide(index) {
+            // Hide all slides
+            slides.forEach(slide => {
+                slide.classList.remove('active');
+            });
+            // Show the slide at the current index
+            slides[index].classList.add('active');
+        }
+
+        // Add an event listener to the next button
+        nextBtn.addEventListener('click', () => {
+            // Increment the slide index, looping back to 0 if it's the last slide
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+        });
+
+        // Show the first slide when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            showSlide(currentSlide);
+        });
+    </script>
+
+</body>
+</html>
