@@ -2,262 +2,282 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Canvas 3 & 4 — Full Deck (Timers + Blank Green Board)</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>STEM — Canvas 3 & 4 (Final, Two Days, Timers)</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
-    html, body { height:100%; }
+    html, body { height:100%; margin:0; }
     body { font-family:'Lexend', sans-serif; }
     .deck { width:100vw; height:100vh; display:flex; flex-direction:column; }
     .viewport { flex:1; display:flex; align-items:center; justify-content:center; text-align:center; padding:clamp(12px,3.5vh,32px); }
-    .slide h2 { font-weight:700; font-size:clamp(28px,4vw,50px); line-height:1.1; }
-    .slide p, .slide li { font-size:clamp(28px,4vw,46px); line-height:1.45; }
-    .slide ul { max-width:1400px; margin:1rem auto 0; text-align:left; }
-    .board { width:min(92vw,1400px); height:min(58vh,700px); border-radius:16px; box-shadow:0 6px 18px rgba(0,0,0,.12); }
+
+    /* Readability */
+    .slide h2 { font-weight:700; font-size:clamp(32px,4.8vw,54px); line-height:1.18; }
+    .slide p, .slide li { font-size:clamp(28px,4vw,46px); line-height:1.42; }
+    .slide ul { max-width:1600px; margin:1rem auto 0; text-align:left; }
+
+    .board { width:min(92vw,1600px); height:min(62vh,720px); border-radius:16px; background:#d9fbe6; border:2px solid #10b981; box-shadow:0 6px 18px rgba(0,0,0,.12); }
+
+    /* Lined paper with a red margin line */
+    .lined-paper {
+      position:relative; width:min(85vw,1000px); height:min(42vh,460px);
+      padding:20px 28px; border-radius:12px; border:1px solid #94a3b8;
+      background:
+        linear-gradient(to right, rgba(255,0,0,0.35) 60px, transparent 61px),
+        repeating-linear-gradient(white, white 38px, #cbd5e1 39px);
+    }
+
+    button:disabled { opacity:.6; cursor:not-allowed; }
   </style>
 </head>
 <body class="bg-gradient-to-br from-blue-50 to-purple-50">
 
   <div id="presentation-card" class="deck">
+    <!-- Slide viewport -->
     <div id="slide-content" class="viewport"></div>
 
-    <!-- Timer controls -->
-    <div id="interactive-controls" class="hidden flex-col items-center gap-3 mx-[clamp(12px,3.5vh,32px)] mb-[clamp(12px,3.5vh,32px)] p-3 bg-indigo-50 rounded-xl border border-indigo-100">
-      <div class="flex flex-col md:flex-row md:items-center md:justify-center gap-4 w-full">
+    <!-- Timer controls (only show on timed slides) -->
+    <div id="interactive-controls" class="hidden flex-col items-center gap-3 mx-[clamp(12px,3.5vh,32px)] mb-[clamp(12px,3.5vh,32px)] p-4 bg-indigo-50 rounded-xl border border-indigo-100">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-center gap-5 w-full">
         <div class="flex items-center gap-3 justify-center">
-          <label for="minutes-range" class="text-lg font-semibold text-indigo-800">Minutes</label>
-          <input id="minutes-range" type="range" min="1" max="30" value="5" class="w-56">
-          <span id="minutes-label" class="text-lg font-bold text-indigo-900">5</span>
+          <label for="minutes-range" class="text-xl font-semibold text-indigo-800">Minutes</label>
+          <input id="minutes-range" type="range" min="1" max="30" value="5" class="w-72">
+          <span id="minutes-label" class="text-xl font-bold text-indigo-900">5</span>
         </div>
-        <div class="flex items-center justify-center gap-3">
-          <button id="timer-button" class="px-6 py-3 rounded-full font-bold text-white transition bg-green-500 hover:bg-green-600">Start</button>
-          <span id="timer-display" class="text-7xl font-mono text-gray-800 w-36 text-center">5:00</span>
-          <button id="timer-reset-button" class="px-5 py-2 rounded-full font-bold text-sm text-gray-700 bg-gray-200 hover:bg-gray-300">Reset</button>
+        <div class="flex items-center justify-center gap-4">
+          <button id="timer-button" class="px-6 py-3 rounded-full font-extrabold text-white bg-green-600 hover:bg-green-700">Start</button>
+          <span id="timer-display" class="text-6xl md:text-7xl font-mono text-gray-900 w-36 text-center">5:00</span>
+          <button id="timer-reset-button" class="px-5 py-3 rounded-full font-bold text-gray-800 bg-gray-200 hover:bg-gray-300">Reset</button>
         </div>
       </div>
     </div>
 
     <!-- Bottom nav -->
     <div class="flex items-center justify-between px-[clamp(12px,3.5vh,32px)] pb-[clamp(12px,3.5vh,32px)]">
-      <button id="prev-button" class="px-8 py-4 rounded-full font-bold text-white transition transform hover:scale-105 bg-gray-600 disabled:bg-gray-400" disabled>Previous</button>
-      <div id="slide-counter" class="text-[clamp(22px,3.5vw,34px)] font-semibold text-gray-700"></div>
-      <button id="next-button" class="px-8 py-4 rounded-full font-bold text-white transition transform hover:scale-105 bg-purple-600 disabled:bg-gray-400">Next</button>
+      <button id="prev-button" class="px-8 py-4 rounded-full font-bold text-white bg-gray-700 hover:bg-gray-800">Previous</button>
+      <div id="slide-counter" class="text-[clamp(20px,2.8vw,30px)] font-semibold text-gray-700"></div>
+      <button id="next-button" class="px-8 py-4 rounded-full font-bold text-white bg-purple-700 hover:bg-purple-800">Next</button>
     </div>
   </div>
 
   <script>
-    // FULL, ORDERED DECK — 12 SLIDES
+    // ---- Slide Data (12 total) ----
     const slides = [
-      // -------- DAY 3 --------
+      // ---------- DAY 3 ----------
       {
-        title: "Day 3 — Warm Up",
+        title: 'Day 3 — Warm Up',
         content: `
-          <div class='slide max-w-[1200px]'>
-            <h2 class='mb-4 text-emerald-600'>✍️ Warm Up</h2>
-            <p>Find your <strong>journal</strong>. Add a heading: <em>Name · Date · Topic</em>.</p>
-            <div class='mt-6 p-6 bg-emerald-50 rounded-2xl border border-emerald-200 inline-block'>
-              <p>Write <strong>3 things</strong> you remember from last week’s science class. When time is up: <strong>Think–Pair–Share</strong>.</p>
+          <div class="slide max-w-[1700px]">
+            <h2 class="mb-4 text-emerald-600">✍️ Warm Up</h2>
+            <p>In your <strong>journal</strong>, write your heading like this:</p>
+            <div class="lined-paper mt-6 mx-auto">
+              <div class="flex justify-between"><p><em>Name</em></p><p><em>Date</em></p></div>
+              <p class="text-center mt-2"><em>Class Norms & Lab Routines</em></p>
             </div>
+            <p class="mt-6">List <strong>3 things</strong> you remember from last week’s science class. <strong>Think–Pair–Share while the timer runs.</strong></p>
           </div>
         `,
-        day: 3,
-        hasTimer: true,
-        defaultMin: 5
+        hasTimer: true, defaultMin: 5
       },
       {
-        title: "Day 3 — Share Out",
+        title: 'Day 3 — Share Out',
         content: `
-          <div class='slide max-w-[1400px]'>
-            <h2 class='mb-4 text-indigo-600'>💬 Let’s Share!</h2>
-            <p>Raise your hand and share one big idea you wrote. We’ll build a class list of what we remember!</p>
-            <!-- Blank green board (no text/numbers) -->
-            <div class='board mt-6 bg-green-100 border border-green-300'></div>
+          <div class="slide max-w-[1700px]">
+            <h2 class="mb-4 text-indigo-600">💬 Share Out</h2>
+            <p>Raise your hand and share one idea you wrote.</p>
+            <div class="board mt-8"></div>
           </div>
-        `,
-        day: 3
+        `
       },
       {
-        title: "Day 3 — Our Class Contract",
+        title: 'Day 3 — Our Class Contract',
         content: `
-          <div class='slide max-w-[1400px]'>
-            <h2 class='mb-4 text-sky-600'>📜 Our Promises</h2>
-            <p>These promises keep our room safe, fair, and fun. Which one matters most to you?</p>
-            <ul class='list-disc pl-8 mt-6 space-y-4'>
+          <div class="slide max-w-[1700px]">
+            <h2 class="mb-4 text-sky-600">📜 Our Promises</h2>
+            <ul class="list-disc pl-10 mt-6 space-y-4">
               <li>👀👂✋ Listen with eyes, ears, and hands.</li>
-              <li>💡 Share and respect everyone’s ideas.</li>
+              <li>💡 Share and respect ideas.</li>
               <li>🎨 Use supplies safely and wisely.</li>
               <li>🤝 Be kind and respect space.</li>
               <li>🌟 Treat others how you want to be treated.</li>
             </ul>
           </div>
-        `,
-        day: 3
+        `
       },
       {
-        title: "Day 3 — Homework",
+        title: 'Day 3 — STEM Lab Norms',
         content: `
-          <div class='slide max-w-[1200px]'>
-            <h2 class='mb-4 text-purple-600'>📘 Homework</h2>
-            <p>Take home your copy of our Class Contract. <strong>Sign it</strong> and bring it back tomorrow!</p>
-          </div>
-        `,
-        day: 3
-      },
-      {
-        title: "Day 3 — STEM Lab Norms",
-        content: `
-          <div class='slide max-w-[1400px]'>
-            <h2 class='mb-4 text-amber-600'>🧪 STEM Lab Norms</h2>
-            <ul class='list-disc pl-8 mt-4 space-y-4'>
-              <li><strong>Supplies:</strong> Return items to the labeled bins.</li>
-              <li><strong>Bathroom:</strong> Cross <em>two fingers</em> silently to ask.</li>
-              <li><strong>Water & Food:</strong> Water stays <em>outside</em>. No food in the lab.</li>
-              <li><strong>Cleanup:</strong> Clear desks, sort tools, check floor, push in chairs.</li>
-              <li><strong>Safety:</strong> Walk, use tools properly, respect space.</li>
+          <div class="slide max-w-[1700px]">
+            <h2 class="mb-4 text-amber-600">🧪 STEM Lab Norms</h2>
+            <ul class="list-disc pl-10 mt-4 space-y-4">
+              <li><strong>Supplies:</strong> return to labeled bins.</li>
+              <li><strong>Bathroom:</strong> cross two fingers silently.</li>
+              <li><strong>Water & Food:</strong> water stays outside; no food.</li>
+              <li><strong>Cleanup:</strong> clear desks, sort tools, check floor, push chairs.</li>
+              <li><strong>Safety:</strong> walk, use tools properly, respect space.</li>
             </ul>
           </div>
-        `,
-        day: 3
+        `
       },
       {
-        title: "Day 3 — ClassDojo Skills (Positive & Needs Work)",
+        title: 'Day 3 — ClassDojo Skills',
         content: `
-          <div class='slide max-w-[1700px]'>
-            <h2 class='mb-4 text-violet-700'>🏆 ClassDojo Skills</h2>
-            <div class='grid grid-cols-1 md:grid-cols-2 gap-10 text-left'>
-              <div class='p-6 rounded-2xl bg-green-50 border border-green-200'>
-                <h3 class='text-[clamp(26px,4.2vw,44px)] font-extrabold text-green-700 mb-4'>Positive</h3>
-                <ul class='list-disc pl-8 space-y-3'>
-                  <li>🤝 Teamwork & Collaboration</li>
-                  <li>🎤 Participation</li>
-                  <li>🏆 Working Hard</li>
-                  <li>🧪 Persistence</li>
-                  <li>🧠 Problem‑Solving</li>
-                  <li>💡 Creative Thinking</li>
-                  <li>🌷 Helping Others</li>
-                  <li>📝 Note‑Taking / Journaling</li>
-                  <li>🧰 Safe Use of Supplies</li>
-                  <li>🧹 Clean Up Crew</li>
-                </ul>
-              </div>
-              <div class='p-6 rounded-2xl bg-rose-50 border border-rose-200'>
-                <h3 class='text-[clamp(26px,4.2vw,44px)] font-extrabold text-rose-700 mb-4'>Needs Work</h3>
-                <ul class='list-disc pl-8 space-y-3'>
-                  <li>👎 Disrespectful</li>
-                  <li>📣 Interrupting</li>
-                  <li>😴 Not Participating</li>
-                  <li>🚫 Off Task</li>
-                  <li>🙅 Not Including Others</li>
-                  <li>🧯 Unsafe with Supplies</li>
-                  <li>📱 Off‑Task Tech Use</li>
-                  <li>🧼 Messy Clean Up</li>
-                  <li>🎒 Unprepared</li>
-                  <li>🔔 Giving Up Too Quickly</li>
-                </ul>
-              </div>
+          <div class="slide grid grid-cols-1 md:grid-cols-2 gap-10 text-left max-w-[1700px]">
+            <div class="p-6 rounded-2xl bg-green-50 border border-green-200">
+              <h3 class="text-[clamp(28px,4.5vw,48px)] font-extrabold text-green-700 mb-4">Positive</h3>
+              <ul class="list-disc pl-8 space-y-3">
+                <li>🤝 Teamwork & Collaboration</li>
+                <li>🎤 Participation</li>
+                <li>🏆 Working Hard</li>
+                <li>🧪 Persistence</li>
+                <li>🧠 Problem-Solving</li>
+                <li>💡 Creative Thinking</li>
+                <li>🌷 Helping Others</li>
+                <li>📝 Note-Taking / Journaling</li>
+                <li>🧰 Safe Use of Supplies</li>
+                <li>🧹 Clean Up Crew</li>
+              </ul>
+            </div>
+            <div class="p-6 rounded-2xl bg-rose-50 border border-rose-200">
+              <h3 class="text-[clamp(28px,4.5vw,48px)] font-extrabold text-rose-700 mb-4">Needs Work</h3>
+              <ul class="list-disc pl-8 space-y-3">
+                <li>👎 Disrespectful</li>
+                <li>📣 Interrupting</li>
+                <li>😴 Not Participating</li>
+                <li>🚫 Off Task</li>
+                <li>🙅 Not Including Others</li>
+                <li>🧯 Unsafe with Supplies</li>
+                <li>📱 Off-Task Tech Use</li>
+                <li>🧼 Messy Clean Up</li>
+                <li>🎒 Unprepared</li>
+                <li>🔔 Giving Up Too Quickly</li>
+              </ul>
             </div>
           </div>
-        `,
-        day: 3
+        `
       },
       {
-        title: "Day 3 — Digital Citizenship: It's Cool to Be Kind",
+        title: 'Day 3 — Homework',
         content: `
-          <div class='slide max-w-[1400px]'>
-            <h2 class='mb-4 text-rose-600'>💗 It's Cool to Be Kind</h2>
-            <p>Your words online can change the picture. Choose kindness first.</p>
-            <ul class='list-disc pl-8 mt-4 space-y-4'>
-              <li>Think: Would you say it face-to-face?</li>
-              <li>Post Positives: Compliment, encourage, include.</li>
-              <li>Pause & Reread before you send.</li>
-              <li>If someone’s hurt online, leave a kind comment and tell a trusted adult.</li>
+          <div class="slide max-w-[1700px]">
+            <h2 class="text-purple-600 mb-6">📘 Homework</h2>
+            <ul class="list-disc pl-10 mt-4 space-y-4">
+              <li><strong>Graded assignment</strong> — posted on <strong>Veracross</strong>.</li>
+              <li>Take home your copy of our <strong>Class Contract</strong>.</li>
+              <li><strong>Sign it</strong> with your grown-up.</li>
+              <li>Return it <strong>tomorrow</strong>.</li>
+            </ul>
+          </div>
+        `
+      },
+
+      /* --------- Day 3: It’s Cool to Be Kind — Discussion Only (no timers/materials) --------- */
+      {
+        title: "Day 3 — It's Cool to Be Kind (Part 1)",
+        content: `
+          <div class="slide text-left max-w-[1700px] mx-auto">
+            <h2 class="mb-4 text-pink-700">💖 It’s Cool to Be Kind — Part 1</h2>
+            <p class="mb-3">Quick discussion — noticing feelings and showing empathy.</p>
+            <ul class="list-disc pl-10 space-y-3">
+              <li>What does <strong>kindness</strong> look like in our classroom? Online?</li>
+              <li>How can you tell what someone might be feeling <em>without them saying it</em>?</li>
+              <li>When have you seen a kind message change someone’s day?</li>
+              <li>If a message could be read in different ways, how can you make it sound kind?</li>
+            </ul>
+          </div>
+        `
+      },
+      {
+        title: "Day 3 — It's Cool to Be Kind (Part 2)",
+        content: `
+          <div class="slide text-left max-w-[1700px] mx-auto">
+            <h2 class="mb-4 text-pink-700">💖 Noticing Feelings — Talk It Out</h2>
+            <p class="mb-3">Use your own words — no worksheets — just share ideas.</p>
+            <ul class="list-disc pl-10 space-y-3">
+              <li><strong>Scenario A:</strong> A friend says “Nothing happened,” but looks upset. What feelings might be there? What <em>hints</em> do you notice?</li>
+              <li><strong>Scenario B:</strong> Someone says “Forget it” after rehearsal. What might they be feeling? What clues do you hear or see?</li>
+              <li><strong>Kind reply practice:</strong> What’s one short, kind message you could send in each scenario?</li>
+              <li><strong>Takeaway:</strong> Kind words + noticing feelings = stronger teams online and offline.</li>
+            </ul>
+          </div>
+        `
+      },
+
+      // ---------- DAY 4 ----------
+      {
+        title: 'Day 4 — Warm Up',
+        content: `
+          <div class="slide max-w-[1700px]">
+            <h2 class="mb-4 text-emerald-700">🌉 Warm Up</h2>
+            <p>In your journal, write today’s heading:</p>
+            <div class="lined-paper mt-6 mx-auto">
+              <div class="flex justify-between"><p><em>Name</em></p><p><em>Date</em></p></div>
+              <p class="text-center mt-2"><em>Bridge Building</em></p>
+            </div>
+            <ul class="list-disc pl-10 mt-6 space-y-4">
+              <li><strong>Reflection:</strong> One thing from our Class Contract that will help your team today.</li>
+              <li><strong>Observation:</strong> How do bridges stay strong enough to hold cars and people? Use your own reasoning.</li>
             </ul>
           </div>
         `,
-        day: 3
-      },
-
-      // -------- DAY 4 --------
-      {
-        title: "Day 4 — Warm Up",
-        content: `
-          <div class='slide max-w-[1400px]'>
-            <h2 class='mb-4 text-emerald-700'>🌉 Warm Up</h2>
-            <p>In your journal: heading first. Then add <strong>one reflection</strong> about our contract and <strong>one observation</strong> about how bridges hold so many cars/people.</p>
-          </div>
-        `,
-        day: 4,
-        hasTimer: true,
-        defaultMin: 5
+        hasTimer: true, defaultMin: 5
       },
       {
-        title: "Day 4 — Project Challenge: Build a Bridge! + Roles",
+        title: 'Day 4 — Project Challenge: Build a Bridge! + Roles',
         content: `
-          <div class='slide max-w-[1500px]'>
-            <h2 class='mb-4 text-indigo-700'>⚙️ Build a Bridge! + Roles</h2>
+          <div class="slide max-w-[1700px]">
+            <h2 class="mb-4 text-indigo-700">⚙️ Build a Bridge! + Roles</h2>
             <p>Your mission: build a bridge strong enough to hold at least <strong>10 textbooks</strong>.</p>
-            <ul class='list-disc pl-8 mt-4 space-y-4'>
+            <ul class="list-disc pl-10 mt-4 space-y-4">
               <li><strong>Supplies:</strong> cardboard, straws, tape, string, paperclips.</li>
               <li><strong>Time:</strong> 20 minutes to design and build. ⏱️</li>
-              <li><strong>Team Roles (pick one):</strong> 🧠 Designer · 🏗️ Builder · 🧲 Stabilizer · ⏱️ Timekeeper</li>
+              <li><strong>Team Roles:</strong> 🎨 Designer · 🛠️ Builder · 🧲 Stabilizer · ⏱️ Timekeeper</li>
               <li>Test together and cheer for every team!</li>
             </ul>
           </div>
         `,
-        day: 4,
-        hasTimer: true,
-        defaultMin: 20
+        hasTimer: true, defaultMin: 20
       },
       {
-        title: "Day 4 — Reflection & Bridge Rubric",
+        title: 'Day 4 — Reflection & Bridge Rubric',
         content: `
-          <div class='slide max-w-[1500px]'>
-            <h2 class='mb-4 text-fuchsia-700'>💬 Reflection</h2>
-            <ul class='list-disc pl-8 mt-4 space-y-4'>
+          <div class="slide max-w-[1700px]">
+            <h2 class="mb-4 text-fuchsia-700">💬 Reflection</h2>
+            <ul class="list-disc pl-10 mt-4 space-y-4">
               <li>Did your team follow our promises?</li>
               <li>What worked well in your design?</li>
               <li>What would you try differently next time?</li>
             </ul>
-            <h2 class='mt-8 mb-3 text-green-700'>📏 Bridge Rubric</h2>
-            <ul class='list-disc pl-8 space-y-3'>
+            <h2 class="mt-8 mb-3 text-green-700">📏 Bridge Rubric</h2>
+            <ul class="list-disc pl-10 space-y-3">
               <li><strong>3 pts — Strength:</strong> Strongest bridge (holds the most weight) using materials effectively.</li>
-              <li><strong>2 pts — Stability:</strong> Remains freestanding for <strong>10 seconds</strong> during testing.</li>
+              <li><strong>2 pts — Stability:</strong> Freestanding for <strong>10 seconds</strong> during testing.</li>
               <li><strong>1 pt — Teamwork:</strong> Roles used respectfully; positive, on-task collaboration.</li>
             </ul>
           </div>
-        `,
-        day: 4
+        `
       },
       {
-        title: "Day 4 — Digital Citizenship: When in Doubt, Talk It Out",
+        title: 'Day 4 — Clean Up Game',
         content: `
-          <div class='slide max-w-[1400px]'>
-            <h2 class='mb-4 text-rose-700'>🛡️ When in Doubt, Talk It Out</h2>
-            <ul class='list-disc pl-8 mt-4 space-y-4'>
-              <li>See something confusing or mean online? <strong>Pause.</strong></li>
-              <li>Tell a trusted adult and a class helper.</li>
-              <li>Be a helper — include others, report, and support.</li>
-            </ul>
+          <div class="slide max-w-[1700px]">
+            <h2 class="mb-4 text-amber-700">🧹 Clean Up Game</h2>
+            <div class="text-left max-w-[1200px] mx-auto space-y-4">
+              <p>⏱️ <strong>3-minute</strong> timer</p>
+              <p>🧰 Return all supplies to labeled bins</p>
+              <p>🧼 Clear tables and floor</p>
+              <p>🪑 Push in chairs and tidy team area</p>
+              <p>👀 Final check with your team lead</p>
+              <p>✅ Room should look <em>better</em> than we found it</p>
+            </div>
           </div>
         `,
-        day: 4
-      },
-      {
-        title: "Day 4 — Clean Up Game",
-        content: `
-          <div class='slide max-w-[1400px]'>
-            <h2 class='mb-4 text-amber-700'>🧹 Clean Up Game</h2>
-            <p>After projects: return supplies, stack chairs, and reset the room. Which group finishes first (and neatest)?</p>
-          </div>
-        `,
-        day: 4,
-        hasTimer: true,
-        defaultMin: 3
+        hasTimer: true, defaultMin: 3
       }
     ];
 
-    // ------ State & DOM refs ------
+    // ---------- Timer + Navigation ----------
     let currentSlideIndex = 0;
     let isTimerRunning = false;
     let secondsLeft = 0;
@@ -275,55 +295,93 @@
     const minutesLabel = document.getElementById('minutes-label');
 
     function fmt(sec){ const m=Math.floor(sec/60); const s=sec%60; return `${m}:${String(s).padStart(2,'0')}`; }
-
     function beep(){
       try{
         const ctx=new (window.AudioContext||window.webkitAudioContext)();
-        const o=ctx.createOscillator();
-        const g=ctx.createGain();
+        const o=ctx.createOscillator(); const g=ctx.createGain();
         o.type='sine'; o.frequency.value=880; o.connect(g); g.connect(ctx.destination);
         g.gain.setValueAtTime(0.001,ctx.currentTime);
         g.gain.exponentialRampToValueAtTime(0.3,ctx.currentTime+0.01);
-        o.start(); setTimeout(()=>{g.gain.exponentialRampToValueAtTime(0.0001,ctx.currentTime+0.3);o.stop(ctx.currentTime+0.35);},220);
+        o.start();
+        setTimeout(()=>{ g.gain.exponentialRampToValueAtTime(0.0001,ctx.currentTime+0.3); o.stop(ctx.currentTime+0.35); }, 220);
       }catch(e){}
     }
 
-    function setSecondsFromSlider(){ secondsLeft=Number(minutesRange.value)*60; timerDisplay.textContent=fmt(secondsLeft); minutesLabel.textContent=minutesRange.value; }
+    function stopTimer(){
+      isTimerRunning = false;
+      timerButton.textContent = 'Start';
+      timerButton.classList.remove('bg-red-600','hover:bg-red-700');
+      timerButton.classList.add('bg-green-600','hover:bg-green-700');
+      if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+    }
+
+    function setSecondsFromSlider(){
+      const m = Number(minutesRange.value);
+      secondsLeft = (isNaN(m) || m < 1 ? 5 : m) * 60;
+      timerDisplay.textContent = fmt(secondsLeft);
+      minutesLabel.textContent = String(isNaN(m) ? 5 : m);
+    }
 
     function showSlide(index){
-      const slide=slides[index];
-      slideContentDiv.innerHTML=slide.content;
-      slideCounterSpan.textContent=`Slide ${index + 1} of ${slides.length}`;
+      const slide = slides[index];
+      slideContentDiv.innerHTML = slide.content;
+      slideCounterSpan.textContent = `Slide ${index + 1} of ${slides.length}`;
 
-      if(slide.hasTimer){
-        timerControls.style.display='flex';
-        minutesRange.value=slide.defaultMin||5;
+      if (slide.hasTimer) {
+        timerControls.style.display = 'flex';
+        minutesRange.value = slide.defaultMin || 5;
         setSecondsFromSlider();
         stopTimer();
       } else {
-        timerControls.style.display='none';
+        timerControls.style.display = 'none';
         stopTimer();
       }
 
-      prevButton.disabled=index===0;
-      nextButton.disabled=index===slides.length-1;
+      prevButton.disabled = (index === 0);
+      nextButton.disabled = (index === slides.length - 1);
     }
 
-    function tick(){ if(secondsLeft<=0){ stopTimer(); timerDisplay.textContent='0:00'; beep(); return; } secondsLeft-=1; timerDisplay.textContent=fmt(secondsLeft); }
+    function tick(){
+      if (secondsLeft <= 0) { stopTimer(); timerDisplay.textContent='0:00'; beep(); return; }
+      secondsLeft -= 1;
+      timerDisplay.textContent = fmt(secondsLeft);
+    }
 
-    function startTimer(){ if(isTimerRunning){ stopTimer(); return; } isTimerRunning=true; timerButton.textContent='Pause'; timerButton.classList.remove('bg-green-500','hover:bg-green-600'); timerButton.classList.add('bg-red-500','hover:bg-red-600'); if(secondsLeft<=0){ setSecondsFromSlider(); } timerInterval=setInterval(tick,1000); }
+    function startTimer(){
+      if (!isTimerRunning) {
+        isTimerRunning = true;
+        timerButton.textContent = 'Pause';
+        timerButton.classList.remove('bg-green-600','hover:bg-green-700');
+        timerButton.classList.add('bg-red-600','hover:bg-red-700');
+        if (secondsLeft <= 0) { setSecondsFromSlider(); }
+        timerInterval = setInterval(tick, 1000);
+      } else {
+        stopTimer();
+      }
+    }
 
-    function stopTimer(){ isTimerRunning=false; timerButton.textContent='Start'; timerButton.classList.remove('bg-red-500','hover:bg-red-600'); timerButton.classList.add('bg-green-500','hover:bg-green-600'); clearInterval(timerInterval); timerInterval=null; }
+    function resetTimer(){
+      stopTimer();
+      setSecondsFromSlider();
+    }
 
-    function resetTimer(){ stopTimer(); setSecondsFromSlider(); }
+    // Event listeners
+    prevButton.addEventListener('click', () => {
+      if (currentSlideIndex > 0) { currentSlideIndex--; showSlide(currentSlideIndex); }
+    });
 
-    prevButton.addEventListener('click',()=>{ if(currentSlideIndex>0){ currentSlideIndex--; showSlide(currentSlideIndex);} });
-    nextButton.addEventListener('click',()=>{ if(currentSlideIndex<slides.length-1){ currentSlideIndex++; showSlide(currentSlideIndex);} });
-    timerButton.addEventListener('click',startTimer);
-    timerResetButton.addEventListener('click',resetTimer);
-    minutesRange.addEventListener('input',()=>{ minutesLabel.textContent=minutesRange.value; if(!isTimerRunning){ setSecondsFromSlider(); }});
+    nextButton.addEventListener('click', () => {
+      if (currentSlideIndex < slides.length - 1) { currentSlideIndex++; showSlide(currentSlideIndex); }
+    });
 
-    document.addEventListener('DOMContentLoaded',()=> showSlide(currentSlideIndex));
+    timerButton.addEventListener('click', startTimer);
+    timerResetButton.addEventListener('click', resetTimer);
+    minutesRange.addEventListener('input', () => {
+      minutesLabel.textContent = minutesRange.value;
+      if (!isTimerRunning) setSecondsFromSlider();
+    });
+
+    document.addEventListener('DOMContentLoaded', () => { showSlide(currentSlideIndex); });
   </script>
 </body>
 </html>
